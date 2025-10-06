@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Review = require("./review.js")
 
-const listingSchema = new Schema({
+const movieSchema = new Schema({
     title: {
         type: String,
         required: true,
@@ -14,7 +14,6 @@ const listingSchema = new Schema({
     },
     price: Number,
     location: String,
-    country: String,
     reviews: [
         {
             type: Schema.Types.ObjectId,
@@ -27,11 +26,11 @@ const listingSchema = new Schema({
     },
 });
 
-listingSchema.post("findOneAndDelete", async (listing) => {
-    if(listing) {
-        await Review.deleteMany({_id : {$in: listing.reviews}});
+movieSchema.post("findOneAndDelete", async (movie) => {
+    if(movie) {
+        await Review.deleteMany({_id : {$in: movie.reviews}});
     }
 })
 
-const Listing = mongoose.model("Listing", listingSchema);
-module.exports = Listing;
+const Movie = mongoose.model("Movie", movieSchema);
+module.exports = Movie;

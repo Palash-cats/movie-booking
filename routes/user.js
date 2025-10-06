@@ -5,7 +5,7 @@ const passport = require("passport");
 const { saveRedirectUrl } = require("../middleware.js");
 
 const userController = require("../controllers/users.js");
-const { route } = require("./listing");
+const { route } = require("./movie.js");
 
 router
     .route("/signup")

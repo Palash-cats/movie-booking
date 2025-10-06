@@ -16,7 +16,7 @@ body {
     background-color: white;
 }
 
-.fa-compass {
+.fa-film {
     color: #fe424d;
     font-size: 2rem;
 }
@@ -37,46 +37,10 @@ body {
     }
 }
 
-/* footer */
-
-.f-info-links a {
-    text-decoration: none;
-    color: #222;
-}
-
-.f-info-links a:hover {
-    text-decoration: underline;
-}
-
-.f-info-links,
-.f-info-socials,
-.f-info-brand {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.f-info-socials i {
-    font-size: 1.2rem;
-    margin-right: 1rem;
-}
-
-.f-info {
-    height: 8rem;
-    background-color: #ebebeb;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: space-evenly;
-    text-align: center;
-    font-size: 1.2rem;
-    margin-top: 4rem;
-}
 
 /* Cards */
 
-.listing-card {
+.movie-card {
     border: none !important;
     margin-bottom: 2rem;
 }
@@ -95,7 +59,7 @@ body {
     font-weight: 400 !important;
 }
 
-.listing-link {
+.movie-link {
     text-decoration: none;
 }
 

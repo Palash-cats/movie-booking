@@ -1,14 +1,23 @@
-const Listing = require("./models/listing");
+const Movie = require("./models/movie.js");
 const Review = require("./models/review");
 const ExpressError = require("./utils/ExpressError.js");
-const { listingSchema, reviewSchema } = require("./schema.js");
+const { movieSchema, reviewSchema } = require("./schema.js");
 
 module.exports.isLoggedIn = (req, res, next) => {
     if(!req.isAuthenticated()) {
         req.session.redirectUrl = req.originalUrl;
-        req.flash("error", "You must be logged in to create listing!");
+        req.flash("error", "You must be logged in to book a movie!");
         return res.redirect("/login");
     }
+    next();
+}
+
+module.exports.isAdmin = (req,res,next) => {
+    if(!res.locals.currUser._id.equals("68e42cd9bc5063886fd86075")) {
+        req.flash("error", "You are not the admin");
+        return res.redirect("/movies");
+    }
+
     next();
 }
 
@@ -21,17 +30,17 @@ module.exports.saveRedirectUrl = (req, res, next) => {
 
 module.exports.isOwner = async (req, res, next) => {
     let {id} = req.params;
-    let listing = await Listing.findById(id);
-    if(!listing.owner._id.equals(res.locals.currUser._id)) {
-        req.flash("error", "You are not the owner of this listing");
-        return res.redirect(`/listings/${id}`);
+    let movie = await Movie.findById(id);
+    if(!movie.owner._id.equals(res.locals.currUser._id)) {
+        req.flash("error", "You are not the admin of this movie");
+        return res.redirect(`/movies/${id}`);
     }
 
     next();
 }
 
-module.exports.validateListing = (req, res, next) => {
-    let { error } = listingSchema.validate(req.body);
+module.exports.validateMovie = (req, res, next) => {
+    let { error } = movieSchema.validate(req.body);
     if(error) {
         let errMsg = error.details.map((el) => el.message).join(",");
         throw new ExpressError(400, errMsg);
@@ -55,7 +64,7 @@ module.exports.isReviewAuthor = async (req, res, next) => {
     let review = await Review.findById(reviewId);
     if(!review.author.equals(res.locals.currUser._id)) {
         req.flash("error", "You are not the author of this review");
-        return res.redirect(`/listings/${id}`);
+        return res.redirect(`/movies/${id}`);
     }
 
     next();

@@ -4,9 +4,7 @@ if(process.env.NODE_ENV != "production") {
 
 const mongoose = require("mongoose");
 const initData = require("./data.js");
-const Listing = require("../models/listing.js");
-
-const dbUrl = process.env.ATLASDB_URL;
+const Movie = require("../models/movie.js");
 
 main().then(() => {
     console.log("connected to DB");
@@ -15,14 +13,14 @@ main().then(() => {
 });
 
 async function main() {
-    await mongoose.connect(dbUrl);
+    await mongoose.connect("mongodb://127.0.0.1:27017/movie-booking");
 }
 
 const initDB = async () => {
-    await Listing.deleteMany({});
+    await Movie.deleteMany({});
     initData.data = initData.data.map((obj) => ({...obj, owner: "65f498de938bbbafdcf350b8"}))
-    await Listing.insertMany(initData.data);
+    await Movie.insertMany(initData.data);
     console.log("data was initialized");
 }
 
-// initDB();
+initDB();
